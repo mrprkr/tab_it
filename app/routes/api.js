@@ -33,9 +33,8 @@ router.use(function(req, res, next){
 router.route('/house/new')
 	.post(function(req, res){
 		var house = new House();
+		// console.log(req.body.name);
 		house.name = req.body.name;
-		house.transaction = [];
-		house.users = [];
 
 		if(house.name){
 			house.save(function(err){
@@ -57,19 +56,15 @@ router.route('/house/:house_id')
 	})
 
 	//delete a house by ID
-	// .delete(function(req, res){
-	// 	if(req.headers.host === 'localhost:8080'){
-	// 		House.remove({_id : req.body.house_id}, function(err){
-	// 			if(err)
-	// 				res.send(err)
-	// 			res.json({'message':'house deleted'})
-	// 		})
-	// 	}
-	// 	else {
-	// 		console.log("unauth delete request")
-	// 		res.json({'message':'not authorised to delete'})
-	// 	}
-	// });
+	.delete(function(req, res){
+		House.remove({
+      _id: req.params.house_id
+        }, function(err, house) {
+    	if (err)
+        res.send(err);
+    res.json({ message: 'Successfully deleted' });
+     });
+	});
 
 // get a list of all houses
 router.route('/houses')

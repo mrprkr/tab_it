@@ -23,6 +23,25 @@ app.controller('main-controller', function($scope, $http){
 	.error(function(err){
 		console.log(err)
 	})
+
+	$scope.createHouse = function(itemName){
+		$http.post('/api/house/new', {name: itemName}).success(function(data){
+			console.log(data)
+		}).
+		error(function(err){
+			console.log(err)
+		})
+	};
+	
+	$scope.delete = function(itemId){
+		$http.delete('/api/house/'+itemId).success(function(data){
+			console.log(data)
+		}).
+		error(function(err){
+			console.log(err)
+		});
+	}
+
 })
 
 app.controller('house-controller', function($scope, $routeParams, $http){
