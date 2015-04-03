@@ -177,6 +177,16 @@ router.route('/house/:house_id/user/new')
 		})
 	})
 
+//get all users
+router.route('/house/:house_id/users')
+	.post(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			res.json(house.users)
+		})
+	})
+
 //Delete a user
 router.route('/house/:house_id/user/:user_id')
 	.delete(function(req, res){
