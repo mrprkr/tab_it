@@ -86,23 +86,24 @@ router.route('/houses')
 // Transactions
 //============================
 
-// add a New transaction to a house
+// add a new transaction to a house
 router.route('/house/:house_id/transactions/new')
 	.post(function(req, res){
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
+
 			var transaction = new Transaction();
 			transaction.name = req.body.name;
 			transaction.amount = req.body.amount;
-			transaction.payerID = req.body.payerID;
+			transaction.payerId = req.body.payerId;
 			transaction.split = req.body.split;
-
+			
 			house.transactions.push(transaction);
 			house.save(function(err){
 				if(err)
 					res.send(err)
-				res.json({'message':'pushed new transaction to: '+house._id})
+				res.json({'message':'pushed new transaction to: '+house.name})
 			})
 		})
 });
@@ -118,9 +119,44 @@ router.route('/house/:house_id/transactions')
 		})
 	})
 
+//get a specific transaction
+router.route('/house/:house_id/transactions/:transaction_id')
+	.get(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			for(t in house.transactions){
+				if(house.transactions[t]._id == req.params.transaction_id){
+					res.json(house.transactions[t])
+				}
+				//need to add en else statement that sends error if not founde
+				//without sending after EVERY loop or overiding good response
+				// res.json({message:"not found or does not exist"})
+			}
+		})
+	})
+
+	//delete a specifiv transaction
+	.delete(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			for(t in house.transactions){
+				if(house.transactions[t]._id == req.params.transaction_id){
+					console.log(house.transactions[t].name + " has been deleted");
+					house.transactions.splice(t, 1);
+				}
+			}
+			house.save(function(err){
+				if(err)
+					res.send(err)
+				res.json({'message':'transaction removed'})
+			})
+		})
+	})
 
 //============================
-//USERS
+// USERS
 //============================
 
 //create a new user
@@ -141,7 +177,7 @@ router.route('/house/:house_id/user/new')
 		})
 	})
 
-//delete a user
+//Delete a user
 router.route('/house/:house_id/user/:user_id')
 	.delete(function(req, res){
 		House.findById(req.params.house_id, function(err, house){
@@ -160,6 +196,25 @@ router.route('/house/:house_id/user/:user_id')
 			})
 		})
 	})
+
+
+//get transactions for specific user
+router.route('/house/:house_id/user/:user_id/transactions')
+	.get(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			var userTransactions = [];
+
+			for(t in house.transactions){
+				if(req.params.user_id === house.transactions[t].payerId){
+					userTransactions.push(house.transactions[t])
+				}
+			}
+			res.json(userTransactions);
+		})
+	})
+
 
 
 //============================
