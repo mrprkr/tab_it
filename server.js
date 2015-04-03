@@ -2,12 +2,11 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+var router = express.Router();
+var port = process.env.PORT || 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-var router = express.Router();
-var port = process.env.PORT || 8080;
 
 // API
 var api = require('./app/routes/api')

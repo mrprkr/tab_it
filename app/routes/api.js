@@ -14,11 +14,9 @@ mongoose.connect(mongooseConfig);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 //define router and models
 var router = express.Router();
 var House = require('../models/house.js');
-
 
 //middleware here
 router.use(function(req, res, next){
@@ -36,6 +34,9 @@ router.route('/house/new')
 	.post(function(req, res){
 		var house = new House();
 		house.name = req.body.name;
+		house.transaction = [];
+		house.users = [];
+
 		if(house.name){
 			house.save(function(err){
 				if(err)
@@ -43,7 +44,7 @@ router.route('/house/new')
 				res.json({'message':'new house created', 'house_id': house._id})
 			})
 		}
-	})
+	});
 
 //find an existing house by ID
 router.route('/house/:house_id')
@@ -56,19 +57,19 @@ router.route('/house/:house_id')
 	})
 
 	//delete a house by ID
-	.delete(function(req, res){
-		if(req.headers.host === 'localhost:8080'){
-			House.remove({_id : req.body.house_id}, function(err){
-				if(err)
-					res.send(err)
-				res.json({'message':'house deleted'})
-			})
-		}
-		else {
-			console.log("unauth delete request")
-			res.json({'message':'not authorised to delete'})
-		}
-	})
+	// .delete(function(req, res){
+	// 	if(req.headers.host === 'localhost:8080'){
+	// 		House.remove({_id : req.body.house_id}, function(err){
+	// 			if(err)
+	// 				res.send(err)
+	// 			res.json({'message':'house deleted'})
+	// 		})
+	// 	}
+	// 	else {
+	// 		console.log("unauth delete request")
+	// 		res.json({'message':'not authorised to delete'})
+	// 	}
+	// });
 
 // get a list of all houses
 router.route('/houses')
@@ -206,7 +207,7 @@ router.route('/house/:house_id/user/:user_id/transactions')
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
-			
+
 			var userTransactions = [];			
 			for(t in house.transactions){
 				if(req.params.user_id === house.transactions[t].userId){

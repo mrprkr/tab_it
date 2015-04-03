@@ -2,36 +2,17 @@ var gulp 					= require('gulp');
 var bower 				= require('gulp-bower');
 var sass 					= require('gulp-sass');
 var notify 				= require('gulp-notify');
-var jade					= require('gulp-jade');
 var browserSync 	= require('browser-sync');
 var templateCache = require ('gulp-angular-templatecache');
 var streamqueue 	= require('streamqueue');
 var reload 				= browserSync.reload;
 
 
-//compile jade to HTML, catch errors before compile
-gulp.task('compile', function () {
-	var j = jade({
-		pretty: true
-	});
-
-	j.on('error', function(err){
-		console.log(err);
-		notify().write("jade error");
-		j.end();
-		gulp.watch();
-	})
-
-	return gulp.src('./src/jade/*.jade')
-		.pipe(j)
-		.pipe(gulp.dest('./src/temp/'))
-});
-
 
 //compule the HTML views to a templatecache file for angular
-gulp.task('views', ['compile'], function(){
+gulp.task('views', function(){
  return streamqueue({ objectMode: true },
-    gulp.src('./src/temp/**/*.html')
+    gulp.src('./src/views/**/*.html')
     )
     .pipe(templateCache('./temp/templateCache.js', { module: 'templatescache', standalone: true }))
     .pipe(gulp.dest('./src/js/'));
@@ -40,7 +21,7 @@ gulp.task('views', ['compile'], function(){
 
 //move the index file to the root of public
 gulp.task('index', ['views'], function(){
-	return gulp.src('./src/temp/index.html')
+	return gulp.src('./src/html/index.html')
 		.pipe(gulp.dest('./public'))
 })
 
@@ -77,7 +58,7 @@ gulp.task('build',['sass'], function(){
 
 //compile on change
 gulp.task('watch', function(){
-	gulp.watch(['./src/scss/*.scss','./src/js/*.js', './src/jade/*.jade'], ['build']);
+	gulp.watch(['./src/scss/*.scss','./src/js/*.js', './src/html/*.html', './src/views/*.html'], ['build']);
 });
 
 gulp.task('bower', function(){
@@ -97,4 +78,4 @@ gulp.task('serve', function(){
 });
 
 //the dafault task
-gulp.task('default', ['watch', 'serve', 'build', 'bower']);
+gulp.task('default', ['watch', 'build', 'bower']);

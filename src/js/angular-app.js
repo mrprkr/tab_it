@@ -1,7 +1,4 @@
-var data = data;
-
 var app = angular.module('app', ['ngRoute', 'templatescache']);
-
 
 app.config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {
@@ -18,18 +15,16 @@ app.config(['$routeProvider', '$locationProvider',
 			})
 }])
 
-app.controller('main-controller', function($scope){
-	$scope.test = "hello world"
+app.controller('main-controller', function($scope, $http){
+	$scope.test = "hello world";
+	$http.get('/api/houses').success(function(data, status){
+		$scope.houses = data;
+	})
+	.error(function(err){
+		console.log(err)
+	})
 })
 
 app.controller('house-controller', function($scope, $routeParams, $http){
-	$scope.houseId = $routeParams.id
-	$scope.userId = 0;
-
-	$http.get('/data').success(function(data){
-		console.log(data)
-		$scope.transactions = data.transactions;
-		console.log($scope.transactions)
-	})
 
 })
