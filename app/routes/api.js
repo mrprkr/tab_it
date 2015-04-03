@@ -1,3 +1,5 @@
+/*API ROUTES*/
+
 var mongooseConfig = require('../.././config/api_config.js')
 var mongoose = require('mongoose');
 var express = require('express');
@@ -8,9 +10,10 @@ var app = express();
 //configure endpoint in ./config.api_config.js
 mongoose.connect(mongooseConfig);
 
-//use a bodyparser for JSON
+//use bodyparser for JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 //define router and models
 var router = express.Router();
@@ -96,7 +99,7 @@ router.route('/house/:house_id/transactions/new')
 			var transaction = new Transaction();
 			transaction.name = req.body.name;
 			transaction.amount = req.body.amount;
-			transaction.payerId = req.body.payerId;
+			transaction.userId = req.body.userId;
 			transaction.split = req.body.split;
 			
 			house.transactions.push(transaction);
@@ -207,7 +210,6 @@ router.route('/house/:house_id/user/:user_id')
 		})
 	})
 
-
 //get transactions for specific user
 router.route('/house/:house_id/user/:user_id/transactions')
 	.get(function(req, res){
@@ -217,7 +219,7 @@ router.route('/house/:house_id/user/:user_id/transactions')
 			var userTransactions = [];
 
 			for(t in house.transactions){
-				if(req.params.user_id === house.transactions[t].payerId){
+				if(req.params.user_id === house.transactions[t].userId){
 					userTransactions.push(house.transactions[t])
 				}
 			}
@@ -233,9 +235,10 @@ router.route('/house/:house_id/user/:user_id/transactions')
 
 // return some response at root
 router.get('/', function(req, res){
-	res.json({ message: 'hooray! welcome to our api!' });
+	res.json({ message: 'Welcome to our api!' });
 });
 
 
 //export to server
 module.exports = router;
+

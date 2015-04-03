@@ -9,10 +9,10 @@
 - /api/house/:house_id/user/:user_id/transactions - returns user's transactions
 - /api/house/:house_id/users - returns all users
 
-###POST 
-- /api/house/ - creates a new house [name]
-- /api/house/:house_id/transactions/new - creates a new transaction [name, payerId, amount, split]
-- /api/house/:house_id/user/new - create a new user [name]
+###POST
+- /api/house/ - creates a new house | {name}
+- /api/house/:house_id/transactions/new - creates a new transaction | {name, user, amount, split}
+- /api/house/:house_id/user/new - create a new user | {name}
 
 
 ###DELETE

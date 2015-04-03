@@ -4,7 +4,7 @@ var Schema       = mongoose.Schema;
 var TransactionSchema   = new Schema({
     name: String,
     amount: String,
-    payerId: String,
+    userId: String,
     split: String
 });
 
