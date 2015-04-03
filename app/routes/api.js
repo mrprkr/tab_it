@@ -4,7 +4,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
-//start Mongoose
+//connect to mongoose
+//configure endpoint in ./config.api_config.js
 mongoose.connect(mongooseConfig);
 
 //use a bodyparser for JSON
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 var router = express.Router();
 var Transaction = require('../models/transaction.js');
 var House = require('../models/house.js');
+var User = require('../models/user.js');
 
 
 //middleware here
@@ -22,6 +24,11 @@ router.use(function(req, res, next){
 	console.log("api request being made");
 	next();
 })
+
+
+//============================
+// Houses
+//============================
 
 //Create a new house
 router.route('/house')
@@ -49,6 +56,7 @@ router.route('/house/:house_id')
 		})
 	})
 
+	//delete a house by ID
 	.delete(function(req, res){
 		if(req.headers.host === 'localhost:8080'){
 			House.remove({_id : req.body.house_id}, function(err){
@@ -63,70 +71,100 @@ router.route('/house/:house_id')
 		}
 	})
 
+// get a list of all houses
 router.route('/houses')
 	.get(function(req, res){
-		if(req.header.host === 'localhost:8080'){
 			House.find(function(err, houses){
 				if(err)
 					res.send(err)
 				res.json(houses)
 			})
-		}
-		else {
-			console.log("unauth lookup request")
-			res.json({'message':'not authorised to lookup'})			
-		}
-	})
-
-
-
-
-router.route('/transactions')
-	// New transaction
-	.post(function(req, res){
-		var transaction = new Transaction();
-		transaction.name = req.body.name;
-
-		if(transaction.name){
-			transaction.save(function(err){
-				if(err)
-					res.send(err)
-				res.json({'message':'new transaction added'})
-			})
-		}
-		else{
-			res.json({'message':'error: fields do not match schema'})
-		}
-	})
-
-	// get all transactions
-	.get(function(req, res){
-		Transaction.find(function(err, transactions){
-			if(err)
-				res.send(err)
-			res.json(transactions)
-		});
 	});
 
-router.route('/transaction/:transaction_id')
-	.get(function(req, res){
-		Transaction.findById(req.params.transaction_id, function(err, transaction){
-			if(err)
-				res.send(err)
-			res.json(transaction)
-		});
-	})
 
-	.delete(function(req, res){
-		Transaction.remove({
-			_id: req.params.transaction_id
-		}, function(err, transaction){
+//============================
+// Transactions
+//============================
+
+// add a New transaction to a house
+router.route('/house/:house_id/transactions/new')
+	.post(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
-			res.json({'message':'deleted transaction'})
+			var transaction = new Transaction();
+			transaction.name = req.body.name;
+			transaction.amount = req.body.amount;
+			transaction.payerID = req.body.payerID;
+			transaction.split = req.body.split;
+
+			house.transactions.push(transaction);
+			house.save(function(err){
+				if(err)
+					res.send(err)
+				res.json({'message':'pushed new transaction to: '+house._id})
+			})
+		})
+});
+
+// get all transactions for a house
+router.route('/house/:house_id/transactions')
+	.get(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			var transactions = house.transactions;
+			res.json(transactions);
 		})
 	})
 
+
+//============================
+//USERS
+//============================
+
+//create a new user
+router.route('/house/:house_id/user/new')
+	.post(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			var user = new User();
+			user.name = req.body.name
+			house.users.push(user);
+
+			house.save(function(err){
+				if(err)
+					res.send(err)
+				res.json({'message':'new user '+user.name+' created'})
+			})
+		})
+	})
+
+//delete a user
+router.route('/house/:house_id/user/:user_id')
+	.delete(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			for(var i = 0; i < house.users.length; i++){
+				if(req.params.user_id == house.users[i]._id){
+					console.log(house.users[i].name + " has been deleted");
+					house.users.splice(i, 1);
+				}
+			}
+			house.save(function(err){
+				if(err)
+					res.send(err)
+				res.json({'message':'user removed'})
+			})
+		})
+	})
+
+
+//============================
+// Global
+//============================
 
 // return some response at root
 router.get('/', function(req, res){
@@ -134,5 +172,5 @@ router.get('/', function(req, res){
 });
 
 
+//export to server
 module.exports = router;
-
