@@ -1,4 +1,0 @@
-
-<ul>
-  <li ng-repeat="transaction in transactions">{{transaction.desc}} | {{transaction.amount}} | <span ng-if="transaction.payee == userId">(you paid)</span><span ng-if="transaction.payee != userId">{{transaction.payee}} paid</span></li>
-</ul>
