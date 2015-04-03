@@ -19,3 +19,24 @@
 - /api/house/:house_id - delate a house by ID
 - /api/house/:house_id/user/:user_id - delete a user by ID
 - /api/house/:house_id/transaction/:transaction_id - delete a transaction by ID
+
+
+
+##new Endpoints
+
+###GET
+- /api/tabs - List all tabs
+- /api/tab/:tab_id - List specific tab
+- /api/users - List all users
+- /api/user/:user_id - list specific user
+
+
+##POST
+- /api/tabs/new - Create a new tab {name, user_id}
+- /api/users/new - Create a new user {name, email, password}
+- /api/clean - Clean a user {user_id}
+
+##delete
+- /api/tab/:tab_id - delete a tab
+- /api/user/:user_id - delete a user
+

@@ -4,6 +4,8 @@ var mongooseConfig = require('../.././config/api_config.js')
 var mongoose = require('mongoose');
 var express = require('express');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var jf = require('jsonfile');
 var app = express();
 
 //connect to mongoose
@@ -17,12 +19,177 @@ app.use(bodyParser.json());
 //define router and models
 var router = express.Router();
 var House = require('../models/house.js');
+var Tab = require('../models/tab.js');
+var User = require('../models/user.js');
 
 //middleware here
 router.use(function(req, res, next){
-	console.log("api request being made");
+	console.log(req.method+" request being made");
 	next();
 })
+
+
+// create a new user
+router.route('/users/new')
+	.post(function(req, res){
+		var user = new User();
+		user.name = req.body.name;
+		user.password = req.body.password;
+		user.email = req.body.email;
+		if(user.name && user.password && user.email)
+			user.save(function(err){
+				if(err)
+					res.send(err)
+				res.json({message:"created new user", id: user._id})
+			})
+	})
+
+//get a list of users
+router.route('/users')
+	.get(function(req, res){
+		User.find(function(err, users){
+			if(err)
+				res.send(err)
+			res.json(users)
+		})
+	})
+
+// Single user endpoint
+router.route('/user/:user_id')
+	//get a specific user
+	.get(function(req, res){
+		User.findById(req.params.user_id, function(err, user){
+			if(err)
+				res.send(err)
+			res.json(user)
+		})
+	})
+
+	//delete a specific user
+	.delete(function(req, res){
+			User.findById(req.params.user_id, function(err, user){
+				//make a record of the deleted user
+				jf.writeFile('./data/deleted/user_'+user._id+'.json', user, function(err){
+					if(err)
+						console.log(err)
+				User.remove({
+							_id: req.params.user_id
+						}, function(err){
+							if(err)
+								res.send(err)
+						res.json({message:"Deleted User Successfully"})
+				})
+			})
+		})
+	})
+
+//clean up user
+router.route('/clean')
+	.post(function(req, res){
+		User.findById(req.body.user_id, function(err, user){
+			user.tabs = [];
+			console.log("cleaning: "+req.params.user_id);
+
+			Tab.find(req.params.user_id, function(err, userTabs){
+				for(tab in userTabs){
+					user.tabs.push(userTabs[tab]._id)
+				}
+				user.save(function(err){
+					if(err)
+						res.send(err)
+					res.json({message:"user cleaned"})
+				})
+			})
+		})
+	})
+
+
+/* =======================================
+		TABS
+=======================================
+*/
+
+
+// create a new tab
+router.route('/tabs/new')
+	.post(function(req, res){
+		var tab = new Tab()
+
+		//assign it a name
+		tab.name = req.body.name;
+		console.log('created new tab with name: '+tab.name);
+
+		User.findById(req.body.user_id, function(err, user){
+			if(err)
+				res.send(err)
+
+			//set the user as creator
+			tab.creator = user._id;
+
+			//add the user to tab users
+			tab.users.push(user._id);
+
+			//add the new tab to users list
+			user.tabs.push(tab._id);
+			user.save(function(err){
+				if(err)
+					res.send(err)
+			})
+
+			//validate the fields are set
+			if(tab.name && tab.creator)
+				tab.save(function(err){
+					if(err)
+						res.send(err)
+					res.json({message:"created new tab", id: tab._id})
+				})
+		})
+	})
+
+//Get all tabs
+router.route('/tabs')
+	.get(function(req, res){
+		Tab.find(function(err, houses){
+			if(err)
+				res.send(err)
+			res.json(houses)
+		})
+	})
+
+
+//specific tab endpoint
+router.route('/tab/:tab_id')
+	//get a specific tab
+	.get(function(req, res){
+		Tab.findById(req.params.tab_id, function(err, tab){
+			if(err)
+				res.send(err)
+			res.json(tab)
+		})
+	})
+
+	//delete a specific tab
+	.delete(function(req, res){
+		Tab.findById(req.params.tab_id, function(err, tab){
+			//keep a record of deleted entries
+			jf.writeFile('./data/deleted/tab_'+tab._id+'.json', tab, function(err){
+				if(err)
+					console.log(err)
+				Tab.remove({
+							_id: req.params.tab_id
+						}, function(err){
+							if(err)
+								res.send(err)
+						res.json({message:"Deleted Tab Successfully"})
+				})
+			})
+		})
+	})
+
+
+
+
+
 
 
 //============================

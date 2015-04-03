@@ -1,0 +1,11 @@
+{
+  "_id": "551f2533ac49d85a86f4b802",
+  "creator": "551f2445a87d06e085308f68",
+  "name": "A test User",
+  "__v": 0,
+  "transactions": [],
+  "created": "2015-04-03T23:41:39.637Z",
+  "users": [
+    "551f2445a87d06e085308f68"
+  ]
+}

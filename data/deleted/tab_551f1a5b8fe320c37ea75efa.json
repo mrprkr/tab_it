@@ -1,0 +1,13 @@
+{
+  "_id": "551f1a5b8fe320c37ea75efa",
+  "creator": "551f0ec519f3bea06edf9325",
+  "name": "New Tab",
+  "__v": 0,
+  "transactions": [],
+  "created": "2015-04-03T22:55:23.215Z",
+  "users": [
+    {
+      "_id": "551f0ec519f3bea06edf9325"
+    }
+  ]
+}
