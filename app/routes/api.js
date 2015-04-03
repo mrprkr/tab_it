@@ -17,9 +17,7 @@ app.use(bodyParser.json());
 
 //define router and models
 var router = express.Router();
-var Transaction = require('../models/transaction.js');
 var House = require('../models/house.js');
-var User = require('../models/user.js');
 
 
 //middleware here
@@ -34,12 +32,10 @@ router.use(function(req, res, next){
 //============================
 
 //Create a new house
-router.route('/house')
+router.route('/house/new')
 	.post(function(req, res){
 		var house = new House();
 		house.name = req.body.name;
-		house.users = [];
-		house.transactions = [];
 		if(house.name){
 			house.save(function(err){
 				if(err)
@@ -96,7 +92,7 @@ router.route('/house/:house_id/transactions/new')
 			if(err)
 				res.send(err)
 
-			var transaction = new Transaction();
+			var transaction = {};
 			transaction.name = req.body.name;
 			transaction.amount = req.body.amount;
 			transaction.userId = req.body.userId;
@@ -128,28 +124,17 @@ router.route('/house/:house_id/transactions/:transaction_id')
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
-			for(t in house.transactions){
-				if(house.transactions[t]._id == req.params.transaction_id){
-					res.json(house.transactions[t])
-				}
-				//need to add en else statement that sends error if not founde
-				//without sending after EVERY loop or overiding good response
-				// res.json({message:"not found or does not exist"})
-			}
+			var transaction = house.transactions.id(req.params.transaction_id)
+			res.json(transaction)
 		})
 	})
 
-	//delete a specifiv transaction
+	//delete a specific transaction
 	.delete(function(req, res){
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
-			for(t in house.transactions){
-				if(house.transactions[t]._id == req.params.transaction_id){
-					console.log(house.transactions[t].name + " has been deleted");
-					house.transactions.splice(t, 1);
-				}
-			}
+			house.transactions.id(req.params.transaction_id).remove();			
 			house.save(function(err){
 				if(err)
 					res.send(err)
@@ -168,7 +153,7 @@ router.route('/house/:house_id/user/new')
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
-			var user = new User();
+			var user = {};
 			user.name = req.body.name
 			house.users.push(user);
 
@@ -182,7 +167,7 @@ router.route('/house/:house_id/user/new')
 
 //get all users
 router.route('/house/:house_id/users')
-	.post(function(req, res){
+	.get(function(req, res){
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
@@ -190,18 +175,23 @@ router.route('/house/:house_id/users')
 		})
 	})
 
-//Delete a user
+
+//get a specific user
 router.route('/house/:house_id/user/:user_id')
+	.get(function(req, res){
+		House.findById(req.params.house_id, function(err, house){
+			if(err)
+				res.send(err)
+			res.json(house.users.id(req.params.user_id))
+		})
+	})
+
+	//Delete a user
 	.delete(function(req, res){
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
-			for(var i = 0; i < house.users.length; i++){
-				if(req.params.user_id == house.users[i]._id){
-					console.log(house.users[i].name + " has been deleted");
-					house.users.splice(i, 1);
-				}
-			}
+			house.users.id(req.params.user_id).remove();
 			house.save(function(err){
 				if(err)
 					res.send(err)
@@ -216,8 +206,8 @@ router.route('/house/:house_id/user/:user_id/transactions')
 		House.findById(req.params.house_id, function(err, house){
 			if(err)
 				res.send(err)
-			var userTransactions = [];
-
+			
+			var userTransactions = [];			
 			for(t in house.transactions){
 				if(req.params.user_id === house.transactions[t].userId){
 					userTransactions.push(house.transactions[t])
@@ -226,7 +216,6 @@ router.route('/house/:house_id/user/:user_id/transactions')
 			res.json(userTransactions);
 		})
 	})
-
 
 
 //============================

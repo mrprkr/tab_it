@@ -9,14 +9,14 @@ app.use(bodyParser.json());
 var router = express.Router();
 var port = process.env.PORT || 8080;
 
-// INIT API
+// API
 var api = require('./app/routes/api')
 app.use('/api', api)
 
-
+// HTML
+app.use('/', express.static(__dirname + '/public'));
 app.get('/', function(req, res){
-	res.json({'message':'index loaded here'})
-	// res.sendFile('index.html')
+	res.render('index.html')
 })
 
 console.log("app listening on port: "+ port);

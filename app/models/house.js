@@ -6,11 +6,11 @@ var User = new Schema({
     name: String
 });
 
-var Transaction   = new Schema({
+var Transaction = new Schema({
     name: String,
-    amount: String,
+    amount: Number,
     userId: String,
-    split: String
+    split: Number
 });
 
 var House = new Schema({
