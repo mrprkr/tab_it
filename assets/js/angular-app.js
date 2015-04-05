@@ -17,10 +17,39 @@ app.config(['$routeProvider', '$locationProvider',
 			})
 }])
 
-app.controller('homepage-controller', function($scope, $http){
+app.directive('focusInput', function($timeout) {
+  return {
+    link: function(scope, element, attrs) {
+      element.bind('click', function() {
+        $timeout(function() {
+          element.parent().parent().find('input')[0].focus();
+        });
+      });
+    }
+  };
+});
+
+app.controller('homepage-controller', function($scope, $http, $location){
 	$scope.test = "hello world";
 
 	$scope.balance = 13.40;
+	$scope.formState = "collapsed";
+
+	$scope.toggleExpand = function(){
+		if($scope.formState === "collapsed"){
+			$scope.formState = "expanded";
+			$scope.createButton = {'border':'2px solid #fff', 'cursor':'default'};
+		}
+		else {
+			$scope.formState = "collapsed";
+			$scope.createButton = {'border':'2px solid #111', 'cursor':'pointer'};
+		}
+	}
+
+	$scope.addExpense = function(){
+		$scope.formState = "collapsed"
+		$scope.createButton = {'border':'2px solid #111','cursor':'pointer'};
+	}
 })
 
 app.controller('house-controller', function($scope, $routeParams, $http){

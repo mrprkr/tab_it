@@ -2,11 +2,16 @@
 * {
   font-family: Montserrat, sans-serif;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  outline: none; }
 
 body {
   font-size: 15px;
   line-height: 21px; }
+
+u {
+  font-family: inherit;
+  font-size: inherit; }
 
 .container {
   width: 1080px;
@@ -22,7 +27,14 @@ body {
   color: #eee;
   text-align: center;
   line-height: 40px;
-  vertical-align: middle; }
+  vertical-align: middle;
+  position: relative; }
+  .toolbar p {
+    margin-right: 20px;
+    float: right; }
+  .toolbar h4 {
+    float: left;
+    margin-left: 20px; }
 
 .balance-container {
   position: relative; }
@@ -48,10 +60,11 @@ body {
   font-weight: 400; }
 
 .create-expense-container {
-  margin: 20px; }
+  margin-top: 20px; }
 
 .create-new-expense {
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background: none;
   box-shadow: none;
   border: 2px solid black;
@@ -63,15 +76,11 @@ body {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.05rem;
-  transition: all 0.3s;
+  transition: all 0.4s;
   cursor: pointer;
   margin: auto;
   margin-top: 1.4rem;
-  margin-bottom: 1.4rem;
   text-align: center; }
-  .create-new-expense:hover {
-    color: #fff;
-    background-color: #111; }
 
 .transactions-container {
   max-width: 400px;
@@ -147,3 +156,44 @@ body {
   margin: 10px; }
   .admin button {
     padding: 5px; }
+
+.collapsed {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.4s; }
+
+.expanded {
+  height: 200px;
+  overflow: hidden;
+  transition: height 0.4s; }
+
+.new-expense-form {
+  transition: height 0.4s;
+  width: 90%;
+  max-width: 400px;
+  display: block;
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto; }
+  .new-expense-form input, .new-expense-form button {
+    display: block;
+    border: 2px solid black;
+    width: 94%;
+    margin: auto;
+    margin-bottom: 0.7rem;
+    margin-top: 0.7rem;
+    padding: 10px;
+    color: #000;
+    box-shadow: none; }
+  .new-expense-form h4 {
+    text-align: center; }
+  .new-expense-form .add {
+    color: #111;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    border-bottom: 2px dotted #111; }
+    .new-expense-form .add:hover {
+      border-bottom: 2px solid #111; }
