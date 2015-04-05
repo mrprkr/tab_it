@@ -1,26 +1,32 @@
 
-<div class="toolbar">
+<div class="toolbar noselect">
   <p>{Logo and menu here}</p>
 </div>
 <div class="balance-container">
-  <div class="your-balance-label">
+  <div class="your-balance-label noselect">
     <h4>Your Balance </h4>
   </div>
   <div class="your-balance">
-    <h2 class="polarity">+</h2>
-    <h2 class="balance">$13.40</h2>
+    <h2 class="polarity noselect"><span ng-if="balance &gt; 0">+</span><span ng-if="balance &lt; 0">-</span></h2>
+    <h2 class="balance">{{balance | currency: $}}</h2>
   </div>
 </div>
-<div class="new-expense-container">
-  <form>
-    <button href="#">add new expense</button>
-  </form>
+<div class="create-expense-container">
+  <button href="#" class="create-new-expense noselect">create new expense</button>
 </div>
 <hr class="transaction-hr"/>
 <div class="transactions-container">
-  <div class="transactions">
-    <div class="transaction no-touch"><span class="time">You added on Monday 3rd March</span><span class="detail">50% of $44.00 for Shopping</span></div>
-    <div class="transaction no-touch"><span class="time">Sam added on Wednesday 28th February </span><span class="detail">50% of $23.00 for Beer</span></div>
-    <div class="transaction no-touch"><span class="time">You added on Tuesday 27th February </span><span class="detail">33% of $34.80 for Chinese Dinner and drinks at the show</span></div>
+  <div class="transactions noselect">
+    <div class="transaction no-touch"><span class="time">You added {{44*0.5 | currency : $}} on Monday 3rd March</span><span class="detail">50% of $44.00 for Shopping</span></div>
+    <div class="transaction no-touch"><span class="time">Sam added {{23*0.5 | currency : $}} on Wednesday 28th February </span><span class="detail">50% of $23.00 for Beer</span></div>
+    <div class="transaction no-touch"><span class="time">You added {{34.80*0.33 | currency : $}} on Tuesday 27th February </span><span class="detail">33% of $34.80 for Chinese Dinner and drinks at the show</span></div>
   </div>
+</div>
+<div class="admin">
+  <h5>Dev tools:</h5>
+  <button ng-click="balance = balance+1">+$1</button>
+  <button ng-click="balance = balance-1">-$1</button><br/>
+  <button ng-click="balance = balance+50">+$50</button>
+  <button ng-click="balance = balance-50">-$50</button>
+  <button ng-click="balance = 13.40">Reset</button>
 </div>

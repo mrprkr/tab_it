@@ -1,29 +1,39 @@
-.toolbar
+.toolbar.noselect
 	p {Logo and menu here}
 
 .balance-container
-	.your-balance-label
+	.your-balance-label.noselect
 		h4 Your Balance 
 		//- h5 in Australian Dollars
 	.your-balance
-		h2.polarity +
-		h2.balance $13.40
+		h2.polarity.noselect
+			span(ng-if="balance > 0") +
+			span(ng-if="balance < 0") -
+		h2.balance {{balance | currency: $}}
 
-.new-expense-container
-	form
-		button(href="#") add new expense
+.create-expense-container
+	button(href="#").create-new-expense.noselect create new expense
 
 hr.transaction-hr
 
 .transactions-container
 	//- h5 recent transactions
-	.transactions
+	.transactions.noselect
 		.transaction.no-touch
-			span.time You added on Monday 3rd March
+			span.time You added {{44*0.5 | currency : $}} on Monday 3rd March
 			span.detail 50% of $44.00 for Shopping
 		.transaction.no-touch
-			span.time Sam added on Wednesday 28th February 
+			span.time Sam added {{23*0.5 | currency : $}} on Wednesday 28th February 
 			span.detail 50% of $23.00 for Beer
 		.transaction.no-touch
-			span.time You added on Tuesday 27th February 
+			span.time You added {{34.80*0.33 | currency : $}} on Tuesday 27th February 
 			span.detail 33% of $34.80 for Chinese Dinner and drinks at the show
+
+.admin
+	h5 Dev tools:
+	button(ng-click="balance = balance+1") +$1
+	button(ng-click="balance = balance-1") -$1
+	br
+	button(ng-click="balance = balance+50") +$50
+	button(ng-click="balance = balance-50") -$50
+	button(ng-click="balance = 13.40") Reset

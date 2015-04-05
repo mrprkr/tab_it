@@ -86,30 +86,35 @@ body {
 }
 
 
-
-.new-expense-container {
-	button {
-		padding: 10px;
-		background: none;
-		box-shadow: none;
-		border: 2px solid black;
-		width: 100%;
-		max-width: 400px;
-		text-transform: uppercase;
-		font: {
-			family: Montserrat;
-			size: 0.8rem;
-			weight: 700;
-		}
-		letter-spacing: 0.05rem;
-		transition: all 0.3s;
-		cursor: pointer;
-		&:hover {
-			color: #fff;
-			background-color: #111;
-		}
+.create-expense-container {
+	margin: 20px;
+}
+.create-new-expense {
+	padding: 10px;
+	background: none;
+	box-shadow: none;
+	border: 2px solid black;
+	width: 100%;
+	max-width: 400px;
+	text-transform: uppercase;
+	display: block;
+	font: {
+		family: Montserrat;
+		size: 0.8rem;
+		weight: 700;
 	}
-	margin: 1.4rem;
+	letter-spacing: 0.05rem;
+	transition: all 0.3s;
+	cursor: pointer;
+	&:hover {
+		color: #fff;
+		background-color: #111;
+	}
+	margin: auto;
+	margin: {
+		top: 1.4rem;
+		bottom: 1.4rem;
+	}
 	text-align: center;
 }
 
@@ -142,14 +147,21 @@ body {
 	border-bottom: 1px dotted #ccc;
 	transition: all 0.3s;
 	&.no-touch {
-		cursor: pointer;
+		cursor: default;
 		&:hover {
 			background-color: #f8f8f8;
 		}
 	}
 }
 
-
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 .detail {
 	display: block;
@@ -167,4 +179,15 @@ body {
 	font-size: 0.7rem;
 }
 
-
+.admin {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	padding: 10px;
+	button {
+		padding: 5px;
+	}
+	border: 1px dotted #ccc;
+	margin: 10px;
+}

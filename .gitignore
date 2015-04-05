@@ -2,3 +2,4 @@ config/api_config
 /node_modules
 /bower_components
 /public
+.publish/

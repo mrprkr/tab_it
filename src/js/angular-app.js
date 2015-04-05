@@ -19,7 +19,8 @@ app.config(['$routeProvider', '$locationProvider',
 
 app.controller('homepage-controller', function($scope, $http){
 	$scope.test = "hello world";
-
+	
+	$scope.balance = 13.40;
 })
 
 app.controller('house-controller', function($scope, $routeParams, $http){

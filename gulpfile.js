@@ -3,6 +3,7 @@ var bower 				= require('gulp-bower');
 var sass 					= require('gulp-sass');
 var notify 				= require('gulp-notify');
 var jade					= require('gulp-jade');
+var ghPages		= require('gulp-gh-pages');
 var browserSync 	= require('browser-sync');
 var templateCache = require ('gulp-angular-templatecache');
 var streamqueue 	= require('streamqueue');
@@ -94,3 +95,9 @@ gulp.task('serve', function(){
 
 //the dafault task
 gulp.task('default', ['watch', 'build', 'bower', 'serve']);
+
+//deploy to github-pages
+gulp.task('deploy', function(){
+	return gulp.src('./public/**/*')
+	.pipe(ghPages());
+});
