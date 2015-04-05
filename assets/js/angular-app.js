@@ -29,7 +29,7 @@ app.directive('focusInput', function($timeout) {
   };
 });
 
-app.controller('homepage-controller', function($scope, $http, $location){
+app.controller('homepage-controller', function($scope, $http, $location, $timeout){
 	$scope.test = "hello world";
 
 	$scope.balance = 13.40;
@@ -49,6 +49,11 @@ app.controller('homepage-controller', function($scope, $http, $location){
 	$scope.addExpense = function(){
 		$scope.formState = "collapsed"
 		$scope.createButton = {'border':'2px solid #111','cursor':'pointer'};
+	}
+
+	$scope.resetBalance = function(){
+		$scope.balance = Math.floor($scope.balance);
+		$scope.balance = 0;
 	}
 })
 
