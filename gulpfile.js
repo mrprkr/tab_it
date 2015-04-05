@@ -2,15 +2,29 @@ var gulp 					= require('gulp');
 var bower 				= require('gulp-bower');
 var sass 					= require('gulp-sass');
 var notify 				= require('gulp-notify');
+var jade					= require('gulp-jade');
 var browserSync 	= require('browser-sync');
 var templateCache = require ('gulp-angular-templatecache');
 var streamqueue 	= require('streamqueue');
 var reload 				= browserSync.reload;
 
-
+gulp.task('jade', function(){
+	var j = jade({
+		pretty: true
+	});
+	j.on('error', function(err){
+		console.log(err);
+		notify().write("jade error");
+		j.end();
+		gulp.watch();
+	})
+	return gulp.src('./src/jade/*.jade')
+	.pipe(j)
+	.pipe(gulp.dest('./src/views/'))
+})
 
 //compule the HTML views to a templatecache file for angular
-gulp.task('views', function(){
+gulp.task('views',['jade'], function(){
  return streamqueue({ objectMode: true },
     gulp.src('./src/views/**/*.html')
     )
@@ -30,6 +44,7 @@ gulp.task('index', ['views'], function(){
 gulp.task('scripts', ['index'], function(){
 	return streamqueue({ objectMode: true },
 		gulp.src('./src/js/angular-app.js'),
+		gulp.src('./src/js/data.js'),
 		gulp.src('./src/js/temp/templateCache.js')
 		)
 		.pipe(gulp.dest('./public/assets/js/'));
@@ -58,7 +73,7 @@ gulp.task('build',['sass'], function(){
 
 //compile on change
 gulp.task('watch', function(){
-	gulp.watch(['./src/scss/*.scss','./src/js/*.js', './src/html/*.html', './src/views/*.html'], ['build']);
+	gulp.watch(['./src/scss/*.scss','./src/js/*.js', './src/html/*.html', './src/jade/*.jade', './src/views/*.html'], ['build']);
 });
 
 gulp.task('bower', function(){
@@ -78,4 +93,4 @@ gulp.task('serve', function(){
 });
 
 //the dafault task
-gulp.task('default', ['watch', 'build', 'bower']);
+gulp.task('default', ['watch', 'build', 'bower', 'serve']);

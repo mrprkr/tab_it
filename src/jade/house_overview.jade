@@ -1,0 +1,29 @@
+.toolbar
+	p {Logo and menu here}
+
+.balance-container
+	.your-balance-label
+		h4 Your Balance 
+		//- h5 in Australian Dollars
+	.your-balance
+		h2.polarity +
+		h2.balance $13.40
+
+.new-expense-container
+	form
+		button(href="#") add new expense
+
+hr.transaction-hr
+
+.transactions-container
+	//- h5 recent transactions
+	.transactions
+		.transaction.no-touch
+			span.time You added on Monday 3rd March
+			span.detail 50% of $44.00 for Shopping
+		.transaction.no-touch
+			span.time Sam added on Wednesday 28th February 
+			span.detail 50% of $23.00 for Beer
+		.transaction.no-touch
+			span.time You added on Tuesday 27th February 
+			span.detail 33% of $34.80 for Chinese Dinner and drinks at the show

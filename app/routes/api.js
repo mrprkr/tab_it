@@ -186,7 +186,36 @@ router.route('/tab/:tab_id')
 		})
 	})
 
+//add a new user to a specific tab
+router.route('/tab/:tab_id/users/add')
+	.post(function(req, res){
+	Tab.findById(req.params.tab_id, function(err, tab){
+		if(err)
+			res.send(err)
+		tab.users.push(req.body.user_id)
+		tab.save(function(err){
+			if(err)
+				console.log(err)
+			})
+		})
+	// User.findById(req.body.user_id, function(err, user){
+	// 	if(err)
+	// 		res.send(err)
+	// 	user.tabs.push(req.params.tab_id)
+	// 	user.save(function(err){
+	// 		if(err)
+	// 			console.log(err)
+	// 	})
+	// 	})
+	res.json({message:"added user to tab"})
+	})
 
+
+//add a new transaction
+router.route('tab/:tab_id/transactions/add')
+	.post(function(req, res){
+
+	})
 
 
 

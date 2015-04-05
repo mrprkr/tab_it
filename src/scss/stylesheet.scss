@@ -1,10 +1,20 @@
+@import url("http://fonts.googleapis.com/css?family=Ubuntu+Mono|Montserrat:400,700|Roboto+Slab");
+
 * {
 	font:{
-		family: sans-serif;
+		family: Montserrat, sans-serif;
 	}
 	margin: 0;
 	padding: 0;
 }
+
+body {
+	font:{
+		size: 15px;
+	}
+	line-height: 21px;
+}
+
 
 .container {
 	width: (1080px);
@@ -17,3 +27,144 @@
 	display: block;
 	// border: 1px solid red;
 }
+
+.toolbar {
+	$toolbar-height: 40px;
+	display: block;
+	width: 100%;
+	height: $toolbar-height;
+	background-color: #111;
+	margin:{
+		bottom: 13px
+	}
+	color: #eee;
+	text:{
+		align: center;
+	}
+	line-height: $toolbar-height;
+	vertical-align: middle;
+}
+
+.balance-container {
+	position: relative;
+	.polarity {
+		// margin-right: 0.2em;
+		position: absolute;
+		margin-left: -1.4rem;
+		font-size: 2rem;
+	}
+
+}
+
+.your-balance-label {
+	text:{
+		align: center;
+		transform: capitalize;
+	}
+	margin: 1rem;
+}
+
+.your-balance {
+	margin: {
+		top: 0.4rem;
+	}
+	text: {
+		align: center;
+	}
+	h2 {
+		display: inline;
+		font: {
+			size: 3rem;
+		}
+	}
+}
+.balance {
+	font:{
+		family: Montserrat;
+		weight: 400;
+	}
+}
+
+
+
+.new-expense-container {
+	button {
+		padding: 10px;
+		background: none;
+		box-shadow: none;
+		border: 2px solid black;
+		width: 100%;
+		max-width: 400px;
+		text-transform: uppercase;
+		font: {
+			family: Montserrat;
+			size: 0.8rem;
+			weight: 700;
+		}
+		letter-spacing: 0.05rem;
+		transition: all 0.3s;
+		cursor: pointer;
+		&:hover {
+			color: #fff;
+			background-color: #111;
+		}
+	}
+	margin: 1.4rem;
+	text-align: center;
+}
+
+.transactions-container {
+	max-width: 400px;
+	display: block;
+	margin: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	h5 {
+		font-family: Ubuntu Mono;
+		font-size: 0.7rem;
+		text-transform: capitalize;
+		text-align: center;
+	}
+}
+
+.transaction-hr {
+	border: none;
+	border-bottom: 1px dotted #aaa;
+}
+
+.transaction {
+	padding:{
+		top: 0.5rem;
+		bottom: 0.5rem;
+		left: 0.8rem;
+		right: 0.8rem;
+	}
+	border-bottom: 1px dotted #ccc;
+	transition: all 0.3s;
+	&.no-touch {
+		cursor: pointer;
+		&:hover {
+			background-color: #f8f8f8;
+		}
+	}
+}
+
+
+
+.detail {
+	display: block;
+	line-height: 1.2rem;
+	font-size: 1rem;
+	font:{
+		family: Ubuntu Mono;
+		// weight: 400;
+	}
+}
+
+.time {
+	font-family: Ubuntu Mono;
+	line-height: 0.7rem;
+	font-size: 0.7rem;
+}
+
+
