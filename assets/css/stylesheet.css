@@ -101,6 +101,23 @@ body {
     .transaction.no-touch:hover {
       background-color: #f8f8f8; }
 
+.members {
+  text-align: center;
+  font-size: 0.8rem;
+  font-family: Ubuntu Mono; }
+  .members li {
+    display: inline;
+    font-family: inherit;
+    font-size: inherit; }
+    .members li:after {
+      content: " // "; }
+    .members li:last-child:after {
+      content: none; }
+  .members .selected {
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: inherit; }
+
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
