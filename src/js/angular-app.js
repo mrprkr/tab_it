@@ -1,7 +1,7 @@
 var data = data;
 var transactions = transactions;
 
-var app = angular.module('app', ['ngRoute', 'templatescache', 'ngTouch']);
+var app = angular.module('app', ['ngRoute', 'templatescache', 'ngTouch', 'ng-currency']);
 
 app.config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {

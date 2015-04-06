@@ -15,8 +15,8 @@
   <button href="#" ng-click="toggleExpand()" ng-style="createButton" focus-input="focus-input" class="create-new-expense noselect">create new expense</button>
 </div>
 <div ng-class="formState" class="new-expense-form">
-  <form ng-enter="addExpense()"><span class="currencyInput">$</span>
-    <input type="number" placeholder="How much?" ng-model="newTransaction.amount"/>
+  <form ng-enter="addExpense()">
+    <input type="text" placeholder="How much?" ng-model="newTransaction.amount" ng-currency="ng-currency"/>
     <input type="text" placeholder="For what?" ng-model="newTransaction.desc"/>
     <input type="number" placeholder="% split?" ng-model="newTransaction.split" ng-value="100"/>
     <h4><span ng-if="newTransaction.amount &amp;&amp; newTransaction.desc &amp;&amp; newTransaction.split" ng-click="addExpense()" class="add">Add {{newTransaction.amount*(newTransaction.split/100) | currency: $}} to tab</span></h4>
