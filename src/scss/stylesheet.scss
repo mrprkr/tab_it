@@ -6,6 +6,7 @@
 	}
 	margin: 0;
 	padding: 0;
+	outline: none;
 }
 
 body {
@@ -15,6 +16,10 @@ body {
 	line-height: 21px;
 }
 
+u {
+	font-family: inherit;
+	font-size: inherit;
+}
 
 .container {
 	width: (1080px);
@@ -43,6 +48,15 @@ body {
 	}
 	line-height: $toolbar-height;
 	vertical-align: middle;
+	position: relative;
+	p {
+		margin-right: 20px;
+		float: right;
+	}
+	h4 {
+		float: left;
+		margin-left: 20px; 
+	}
 }
 
 .balance-container {
@@ -87,10 +101,14 @@ body {
 
 
 .create-expense-container {
-	margin: 20px;
+	margin-top: 20px;
+	width: 80%;
+	margin: auto;
+
 }
 .create-new-expense {
-	padding: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	background: none;
 	box-shadow: none;
 	border: 2px solid black;
@@ -104,16 +122,12 @@ body {
 		weight: 700;
 	}
 	letter-spacing: 0.05rem;
-	transition: all 0.3s;
+	transition: all 0.6s;
 	cursor: pointer;
-	&:hover {
-		color: #fff;
-		background-color: #111;
-	}
 	margin: auto;
 	margin: {
 		top: 1.4rem;
-		bottom: 1.4rem;
+		// bottom: 1.4rem;
 	}
 	text-align: center;
 }
@@ -154,6 +168,33 @@ body {
 	}
 }
 
+.members{
+	text-align: center;
+	font-size: 0.8rem;
+	font-family: Ubuntu Mono;
+	li {
+		display: inline;
+		font-family: inherit;
+		font-size: inherit;
+		&:after{
+			content:" // "
+		}
+		&:last-child{
+			&:after{
+				content: none;
+			}
+		}
+	}
+	.selected {
+		text-decoration: underline;
+		font-family: inherit;
+		font-size: inherit;
+	}
+}
+
+
+
+
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -161,6 +202,13 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 .detail {
@@ -190,4 +238,66 @@ body {
 	}
 	border: 1px dotted #ccc;
 	margin: 10px;
+}
+
+.collapsed {
+	height: 0px;
+	overflow: hidden;
+	transition: height 0.4s;
+}
+
+.expanded {
+	height: 200px;
+	overflow: hidden;
+	transition: height 0.4s;
+}
+
+.new-expense-form {
+	transition: height 0.4s;
+	width: 90%;
+	max-width: 400px;
+	display: block;
+	background-color: #fff;
+	position: relative;
+	margin: {
+		left: auto;
+		right: auto;
+	}
+	input {
+		display: block;
+		border: 2px solid black;
+		width: 80%;
+		margin: auto;
+		margin-bottom: 0.7rem;
+		margin-top: 0.7rem;
+		padding: 10px;
+		height: 20px;
+		color: #000;
+		// border: none;
+		box-shadow: none;
+	}
+	button {
+		padding: 5px;
+	}
+	h4 {
+		text-align: center;
+	}
+	.add {
+		color: #111;
+		font-size: 0.8rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.3s;
+		text-transform: uppercase;
+		border-bottom: 2px dotted #111;
+		&:hover{
+			border-bottom: 2px solid #111;
+		}
+	}
+}
+
+.currencyInput {
+	position:absolute;
+	top: 23px;;
+	left: 10px;
 }

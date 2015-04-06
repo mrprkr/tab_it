@@ -1,10 +1,9 @@
 .toolbar.noselect
-	p {Logo and menu here}
+	p Tom's Tab
 
 .balance-container
 	.your-balance-label.noselect
 		h4 Your Balance 
-		//- h5 in Australian Dollars
 	.your-balance
 		h2.polarity.noselect
 			span(ng-if="balance > 0") +
@@ -12,28 +11,29 @@
 		h2.balance {{balance | currency: $}}
 
 .create-expense-container
-	button(href="#").create-new-expense.noselect create new expense
+	button(href="#" ng-click="toggleExpand()" ng-style="createButton" focus-input).create-new-expense.noselect create new expense
 
+.new-expense-form(ng-class="formState")
+	form(ng-enter="addExpense()")
+		span.currencyInput $
+		input(type="number" placeholder="How much?" ng-model="newTransaction.amount")
+		input(type="text" placeholder="For what?" ng-model="newTransaction.desc")
+		input(type="number" placeholder="% split?" ng-model="newTransaction.split" ng-value="100")
+		h4
+			span.add(ng-if="newTransaction.amount && newTransaction.desc && newTransaction.split" ng-click="addExpense()") Add {{newTransaction.amount*(newTransaction.split/100) | currency: $}} to tab
+		//- button Add expense to tab
+br
 hr.transaction-hr
 
 .transactions-container
-	//- h5 recent transactions
+	h5 Your transactions
 	.transactions.noselect
-		.transaction.no-touch
-			span.time You added {{44*0.5 | currency : $}} on Monday 3rd March
-			span.detail 50% of $44.00 for Shopping
-		.transaction.no-touch
-			span.time Sam added {{23*0.5 | currency : $}} on Wednesday 28th February 
-			span.detail 50% of $23.00 for Beer
-		.transaction.no-touch
-			span.time You added {{34.80*0.33 | currency : $}} on Tuesday 27th February 
-			span.detail 33% of $34.80 for Chinese Dinner and drinks at the show
+		.transaction(ng-repeat="transaction in transactions | orderBy: '-date'").no-touch
+			span.time(ng-if="transaction.payer._id === user._id") You 
+			span.time(ng-if="transaction.payer._id !== user._id") {{transaction.payer.name}} 
+			span.time added {{transaction.split * 100}}% of {{transaction.amount | currency : $}} on {{transaction.date | date: 'EEEE, dd of MMMM'}}
+			span.detail {{transaction.amount * transaction.split | currency : $}} for {{transaction.desc}}
 
-.admin
-	h5 Dev tools:
-	button(ng-click="balance = balance+1") +$1
-	button(ng-click="balance = balance-1") -$1
-	br
-	button(ng-click="balance = balance+50") +$50
-	button(ng-click="balance = balance-50") -$50
-	button(ng-click="balance = 13.40") Reset
+
+//- .admin
+//- 	h5 Dev tools:
