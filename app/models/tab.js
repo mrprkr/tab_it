@@ -1,10 +1,6 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var UserSchema = new Schema({
-	name: String,
-	email: String
-})
 
 var TransactionSchema = new Schema({
     desc: String,
@@ -22,5 +18,4 @@ var TabSchema = new Schema({
 });
 
 module.exports = mongoose.model('Tab', TabSchema);
-module.exports = mongoose.model('User', UserSchema);
-module.exports = mongoose.model('Transaction', TransactionSchema);
+// module.exports = mongoose.model('Transaction', TransactionSchema);
