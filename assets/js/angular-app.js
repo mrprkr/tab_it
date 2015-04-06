@@ -30,6 +30,20 @@ app.directive('focusInput', function($timeout) {
   };
 });
 
+app.directive('ngEnter', function() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) {
+                    scope.$apply(function(){
+                        scope.$eval(attrs.ngEnter, {'event': event});
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+
 app.filter('dateSuffix', function($filter) {
   var suffixes = ["th", "st", "nd", "rd"];
   return function(input) {
@@ -100,15 +114,17 @@ app.controller('homepage-controller', function($scope, $http, $location, $timeou
 	}
 
 	$scope.addExpense = function(){
-		$scope.formState = "collapsed"
-		$scope.createButton = {'border':'2px solid #111','cursor':'pointer'};
-		var randomID = Math.floor((Math.random() * 5000) + 1);
-		$scope.newTransaction._id = randomID;
-		$scope.newTransaction.amount = $scope.newTransaction.amount.replace("$", "");
-		$scope.newTransaction.payer = $scope.user;
-		$scope.newTransaction.split /= 100;
-		$scope.newTransaction.date = Date.now();
-		$scope.transactions.push($scope.newTransaction);
+		if($scope.newTransaction.amount && $scope.newTransaction.desc && $scope.newTransaction.split){
+			var randomID = Math.floor((Math.random() * 5000) + 1);
+			$scope.newTransaction._id = randomID;
+			$scope.newTransaction.amount = $scope.newTransaction.amount.replace("$", "");
+			$scope.newTransaction.payer = $scope.user;
+			$scope.newTransaction.split /= 100;
+			$scope.newTransaction.date = Date.now();
+			$scope.transactions.push($scope.newTransaction);
+			$scope.formState = "collapsed"
+			$scope.createButton = {'border':'2px solid #111','cursor':'pointer'};
+		}
 	}
 
 	$scope.resetBalance = function(){
