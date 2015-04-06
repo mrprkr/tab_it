@@ -1,5 +1,4 @@
-var data = data;
-var transactions = transactions;
+var tabs = tabs;
 
 var app = angular.module('app', ['ngRoute', 'templatescache', 'ngTouch']);
 
@@ -8,16 +7,30 @@ app.config(['$routeProvider', '$locationProvider',
 		$routeProvider
 
 			.when('/', {
-				templateUrl: 'house_overview.html',
+				templateUrl: 'homepage.html',
 				controller: 'homepage-controller'
 			})
 
-			.when('/house/:id', {
-				templateUrl: 'house_overview.html',
-				controller: 'house-controller'
+			.when('/tabs', {
+				templateUrl: 'your_tabs.html',
+				controller: 'summary-controller'
 			})
+
+			.when('/tab/:id', {
+				templateUrl: 'tab_overview.html',
+				controller: 'tab-controller'
+			})
+
+		$locationProvider.html5Mode(true);
+		$locationProvider.hashPrefix('!');
 }])
 
+// app.run(['$location', function AppRun($location) {
+//     debugger; // -->> here i debug the $location object to see what angular see's as URL
+// }]);
+
+
+// focuses input when creating a new expense
 app.directive('focusInput', function($timeout) {
   return {
     link: function(scope, element, attrs) {
@@ -30,6 +43,7 @@ app.directive('focusInput', function($timeout) {
   };
 });
 
+// allows the user to hit enter to submit form
 app.directive('ngEnter', function() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {
@@ -44,6 +58,7 @@ app.directive('ngEnter', function() {
         };
     });
 
+// adds a suffix to the date when using ngDate
 app.filter('dateSuffix', function($filter) {
   var suffixes = ["th", "st", "nd", "rd"];
   return function(input) {
@@ -55,24 +70,36 @@ app.filter('dateSuffix', function($filter) {
   };
 });
 
-app.controller('homepage-controller', function($scope, $http, $location, $timeout){
-	// $scope.balance = 13.40;
-	$scope.formState = "collapsed";
 
+// controller for the homepage
+app.controller('summary-controller', function($scope){
+	// manually assiging the tabs to scope;
+	// API should request the list here and assign it to scope
+	$scope.tabs = tabs;
 
-	$scope.user = {
-		_id : Number,
-		name: String,
-		email: String
-	}
+})
+
+// Controller for the tab-overview page
+app.controller('tab-controller', function($scope, $http, $location, $timeout, $routeParams){
+
+	// Temp manually set the user
 	$scope.user = {
 			_id: 12345,
 			name: "Michael",
 			email: "p88@me.com"
 		};
 
-	$scope.transactions = transactions;
+	// temp lookup based on the ID in route params
+	// In dist will use API to request list
+	for(tab in tabs){
+		if(tabs[tab]._id === $routeParams.id){
+			$scope.tab = tabs[tab];
+			$scope.transactions = $scope.tab.transactions;
+		}
+	}
 
+	//temp calculating balance on front end. 
+	//dist will request balance from API
 	$scope.findBalance = function(){
 		var yourExpenses = 0;
 		var yourLiabilites = 0;
@@ -84,17 +111,22 @@ app.controller('homepage-controller', function($scope, $http, $location, $timeou
 				yourLiabilites += $scope.transactions[t].amount*$scope.transactions[t].split;
 			}
 		}
-		console.log("Your liabilities are: "+yourLiabilites);
-		console.log("Your expenses are: "+yourExpenses);
+		// console.log("Your liabilities are: "+yourLiabilites);
+		// console.log("Your expenses are: "+yourExpenses);
 		$scope.balance = yourExpenses-yourLiabilites;
-		console.log("Tab balance is :"+$scope.balance);
+		// console.log("Tab balance is: "+$scope.balance);
 	}
 
+	//watch for new objects in transactions
+	//re-runs digest cycle
+	//in DIST this should re-request transactions and balance from API
 	$scope.$watchCollection('transactions', function(){
 		$scope.findBalance();
 	})
 
 
+	//Form functions for animation
+	$scope.formState = "collapsed";
 	$scope.toggleExpand = function(){
 		if($scope.formState === "collapsed"){
 			$scope.newTransaction = {};
@@ -107,10 +139,12 @@ app.controller('homepage-controller', function($scope, $http, $location, $timeou
 		}
 	}
 
+
+	//creates a new expense and pushes to array
 	$scope.addExpense = function(){
 		if($scope.newTransaction.amount && $scope.newTransaction.desc){
-			var randomID = Math.floor((Math.random() * 5000) + 1);
-			$scope.newTransaction._id = randomID;
+			// var randomID = Math.floor((Math.random() * 5000) + 1);
+			// $scope.newTransaction._id = randomID;
 			$scope.newTransaction.payer = $scope.user;
 			if($scope.newTransaction.split){
 				$scope.newTransaction.split /= 100;
@@ -125,12 +159,5 @@ app.controller('homepage-controller', function($scope, $http, $location, $timeou
 		}
 	}
 
-	$scope.resetBalance = function(){
-		$scope.balance = Math.floor($scope.balance);
-		$scope.balance = 0;
-	}
-})
-
-app.controller('house-controller', function($scope, $routeParams, $http){
 
 })

@@ -18,9 +18,7 @@ app.use(bodyParser.json());
 
 //define router and models
 var router = express.Router();
-var House = require('../models/house.js');
 var Tab = require('../models/tab.js');
-var User = require('../models/user.js');
 
 //middleware here
 router.use(function(req, res, next){

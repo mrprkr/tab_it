@@ -38,13 +38,25 @@ body {
 	line-height: $toolbar-height;
 	vertical-align: middle;
 	position: relative;
-	p {
-		margin-right: 20px;
-		float: right;
-	}
 	h4 {
 		float: left;
 		margin-left: 20px; 
+	}
+	.tab-name {
+		float: right;
+		margin-right: 20px;
+	}
+	.backButton {
+		float: left;
+		a {
+			color: #fff;
+			text-decoration: none;
+			margin-left: 20px;
+			border-bottom: 2px dotted #fff;
+			&:hover {
+				border-bottom: 2px solid #fff;
+			}
+		}
 	}
 }
 
@@ -295,4 +307,14 @@ input::-webkit-inner-spin-button {
 	position:absolute;
 	top: 23px;;
 	left: 10px;
+}
+
+
+.tabs-container {
+	max-width: 400px;
+	display: block;
+	margin: {
+		left: auto;
+		right: auto;
+	}
 }

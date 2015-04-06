@@ -7,6 +7,8 @@ var ghPages		= require('gulp-gh-pages');
 var browserSync 	= require('browser-sync');
 var templateCache = require ('gulp-angular-templatecache');
 var streamqueue 	= require('streamqueue');
+var modRewrite  = require('connect-modrewrite');
+var middleware = require('middleware');
 var reload 				= browserSync.reload;
 
 gulp.task('jade', function(){
@@ -87,7 +89,12 @@ gulp.task('bower', function(){
 gulp.task('serve', function(){
 	browserSync({
 		server: {
-			baseDir: "./public"
+			baseDir: "./public",
+			middleware: [
+                modRewrite([
+                    '!\\.\\w+$ /index.html [L]'
+                ])
+            ]
 		},
 		open: false
 	})

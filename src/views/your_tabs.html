@@ -1,0 +1,19 @@
+
+<div class="toolbar">
+  <p>Your Tabs</p>
+</div>
+<div class="tabs-container">
+  <h4>Your Tabs:</h4>
+  <ul>
+    <li ng-repeat="tab in tabs"><a ng-href="/tab/{{tab._id}}">{{tab.name}}</a></li>
+  </ul><br/><br/><a href="">create new tab</a>
+  <div class="new-tab-form">
+    <form>
+      <label>What should we call it?</label><br/>
+      <input type="text" placeholder="Tab Name"/><br/>
+      <label>Who's it for?</label><br/>
+      <input type="email" placeholder="Their email"/><br/>
+      <button>create tab</button>
+    </form>
+  </div>
+</div>
