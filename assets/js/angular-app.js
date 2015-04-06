@@ -114,12 +114,17 @@ app.controller('homepage-controller', function($scope, $http, $location, $timeou
 	}
 
 	$scope.addExpense = function(){
-		if($scope.newTransaction.amount && $scope.newTransaction.desc && $scope.newTransaction.split){
+		if($scope.newTransaction.amount && $scope.newTransaction.desc){
 			var randomID = Math.floor((Math.random() * 5000) + 1);
 			$scope.newTransaction._id = randomID;
 			$scope.newTransaction.amount = $scope.newTransaction.amount.replace("$", "");
 			$scope.newTransaction.payer = $scope.user;
-			$scope.newTransaction.split /= 100;
+			if($scope.newTransaction.split){
+				$scope.newTransaction.split /= 100;
+			}
+			else{
+				$scope.newTransaction.split = 1;
+			}
 			$scope.newTransaction.date = Date.now();
 			$scope.transactions.push($scope.newTransaction);
 			$scope.formState = "collapsed"
