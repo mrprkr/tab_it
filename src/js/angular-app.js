@@ -70,7 +70,9 @@ app.filter('dateSuffix', function($filter) {
   };
 });
 
-
+app.controller('homepage-controller', function($scope){
+	
+})
 // controller for the homepage
 app.controller('summary-controller', function($scope){
 	// manually assiging the tabs to scope;
