@@ -69,7 +69,6 @@ gulp.task('sass', ['scripts'], function(){
 
 gulp.task('build',['sass'], function(){
 	console.log('build complete')
-	reload();
 })
 
 
