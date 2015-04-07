@@ -14,12 +14,12 @@ app.use('/api', api);
 
 
 // HTML
-app.use('/', express.static(__dirname + '/public/'));
+app.use('/', express.static(__dirname + '/public'));
 app.get('/[^\.]+$', function(req, res){
-    res.sendFile(__dirname + "/public/index.html");
+    res.sendFile("index.html", {root: __dirname + '/public' });
 });
 // app.get('/', function(req, res){
-// 	res.sendFile(__dirname + "/public/index.html")
+// 	res.sendFile('index.html', {root: __dirname + '/public' })
 // })
 
 //Start the server
