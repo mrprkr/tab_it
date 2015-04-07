@@ -1,6 +1,6 @@
 /*API ROUTES*/
 
-var mongooseConfig = require('../.././config/api_config.js')
+var mongooseConfig = require('../.././config/api_config.js');
 var mongoose = require('mongoose');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -18,7 +18,6 @@ app.use(bodyParser.json());
 
 //define router and models
 var router = express.Router();
-// var House = require('../models/house.js');
 var Tab = require('../models/tab.js');
 var User = require('../models/user.js');
 
@@ -27,6 +26,11 @@ router.use(function(req, res, next){
 	console.log(req.method+" request being made");
 	next();
 })
+
+
+/* ================================
+	USERS
+================================ */
 
 router.route('/users')
 	.get(function(req, res){
@@ -45,13 +49,18 @@ router.route('/users')
 		user.save(function(err, user){
 			if(err)
 				res.send(err)
-			res.json({message:'created successfully'})
+			res.json({message:'created new user', created: user})
 		})
 	});
 
+
+/* ================================
+	TABS
+================================ */
+
 router.route('/tabs')
 	.get(function(req, res){
-		Tab.find().populate('owner').exec(function(err, tabs){
+		Tab.find().populate(['owner', 'members']).exec(function(err, tabs){
 			if(err)
 				res.send(err)
 			res.json(tabs)
@@ -59,21 +68,57 @@ router.route('/tabs')
 	})
 
 	.post(function(req, res){
+		var response = {};
 		tab = new Tab();
 		tab.name = req.body.name;
+
+		//owner should be set using headers once Auth is implemented
 		tab.owner = req.body.user_id;
-		
-		tab.save(function(err, tab){
+
+		// this function looks up existing members by email
+		if(req.body.member_email){
+			User.findOne({email:req.body.member_email}, function(err, user){
+				if(user){
+					console.log("new tab has existing user: "+user._id)
+					tab.members.push(user._id);
+					tab.members.push(req.body.user_id);
+					response.members = tab.members;
+					tab.save()
+				}
+				else {
+					response.member = null;
+				}
+			})
+		}
+
+		tab.save(function(err){
 			if(err)
 				res.send(err)
-			res.json({message:'created successfully', created: tab})
+			response.message = "Created new tab successfully";
+			response.created = tab;
+			res.json(response)
+		})
+	})
+
+//Test the member lookup functionality
+router.route('/user/:email')
+	.get(function(req, res){
+		console.log("Reqesting member, looking up by email")
+		User.findOne({email:req.params.email}, function(err, user){
+			if(user){
+				res.json(user)
+			}
+			else{
+				res.json({message:"no member found"})
+			}
 		})
 	})
 
 
-//============================
-// Global
-//============================
+
+/* ================================
+	GLOBAL
+================================ */
 
 // return some response at root
 router.get('/', function(req, res){

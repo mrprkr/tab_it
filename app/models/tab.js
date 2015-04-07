@@ -1,7 +1,6 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-
 var TransactionSchema = new Schema({
     desc: String,
     amount: Number,
@@ -12,7 +11,7 @@ var TransactionSchema = new Schema({
 var TabSchema = new Schema({
     name: String,
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
-    member: { type: Schema.Types.ObjectId, ref: 'User' },
+    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     created: {type: Date, default: Date.now},
     transactions: [TransactionSchema]
 });
