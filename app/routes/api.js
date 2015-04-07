@@ -37,7 +37,7 @@ function ensureAuthorized(req, res, next) {
 				req.token = bearerToken;
 				next();
 		} else {
-				res.send(403);
+				res.json({response: 403, message:"You aren't logged in"});
 		}
 }
 

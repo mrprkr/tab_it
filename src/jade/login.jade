@@ -19,8 +19,8 @@
 		input(type="password" placeholder="password" ng-model="signIn.password")
 		input(type="submit" value="Log In")
 	br
-	button(ng-click="logmeout()") log out
-	button(ng-click="getMe()")	Get me
+	button(ng-click="getMe()")	Who's logged in?
+	button(ng-if="userLoggedIn" ng-click="logmeout()") log out
 	p response: {{response}}
 
 	br

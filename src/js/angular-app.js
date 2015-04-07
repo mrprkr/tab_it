@@ -82,6 +82,9 @@ app.controller('homepage-controller', function($scope){
 app.controller('login-controller', function($scope, $http, $localStorage, $window, $timeout){
 	$scope.response = "";
 	$scope.token = $localStorage.token;
+	if($scope.token){
+		$scope.userLoggedIn = true;
+	}
 
 	$scope.createNewUser = function(){
 		$http.post('/api/users', $scope.newUser).success(function(response){
@@ -96,6 +99,7 @@ app.controller('login-controller', function($scope, $http, $localStorage, $windo
 			$scope.response = response;
 			$localStorage.token = response.token;
 			$http.defaults.headers.common.Authorization = $localStorage.token;
+			$scope.userLoggedIn = true;
 		}).
 		error(function(err){
 			$scope.response = err;
@@ -125,7 +129,7 @@ app.controller('login-controller', function($scope, $http, $localStorage, $windo
 	})
 
 
-	
+
 })
 
 // controller for the homepage
