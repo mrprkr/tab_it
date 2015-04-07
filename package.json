@@ -5,7 +5,8 @@
   "main": "server.js",
   "start": "node server.js",
   "engines": {
-    "node": "0.10.32"
+    "node": "0.10.32",
+    "npm" : "2.7.4"
   },
   "repository": "github.com/mrprkr/tab_it",
   "scripts": {
