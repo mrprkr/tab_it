@@ -1,6 +1,6 @@
 var tabs = tabs;
 
-var app = angular.module('app', ['ngRoute', 'templatescache', 'ngTouch']);
+var app = angular.module('app', ['ngRoute', 'templatescache', 'ngTouch', 'ngStorage']);
 
 app.config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {
@@ -9,6 +9,11 @@ app.config(['$routeProvider', '$locationProvider',
 			.when('/', {
 				templateUrl: 'homepage.html',
 				controller: 'homepage-controller'
+			})
+
+			.when('/login', {
+				templateUrl: 'login.html',
+				controller: 'login-controller'
 			})
 
 			.when('/tabs', {
@@ -25,10 +30,9 @@ app.config(['$routeProvider', '$locationProvider',
 		$locationProvider.hashPrefix('!');
 }])
 
-// app.run(['$location', function AppRun($location) {
-//     debugger; // -->> here i debug the $location object to see what angular see's as URL
-// }]);
-
+app.run(function($http, $localStorage) {
+  $http.defaults.headers.common.Authorization = $localStorage.token;
+});
 
 // focuses input when creating a new expense
 app.directive('focusInput', function($timeout) {
@@ -73,6 +77,57 @@ app.filter('dateSuffix', function($filter) {
 app.controller('homepage-controller', function($scope){
 	
 })
+
+
+app.controller('login-controller', function($scope, $http, $localStorage, $window, $timeout){
+	$scope.response = "";
+	$scope.token = $localStorage.token;
+
+	$scope.createNewUser = function(){
+		$http.post('/api/users', $scope.newUser).success(function(response){
+			$scope.response = response;
+		}).error(function(err){
+			$scope.response = err;
+		})
+	}
+
+	$scope.authenticate = function(){
+		$http.post('/api/authenticate', $scope.signIn).success(function(response){
+			$scope.response = response;
+			$localStorage.token = response.token;
+			$http.defaults.headers.common.Authorization = $localStorage.token;
+		}).
+		error(function(err){
+			$scope.response = err;
+		})
+	}
+
+	$scope.getMe = function(){
+		$http.get('/api/users/me').success(function(response){
+			$scope.response = response;
+		}).error(function(err){
+			$scope.response = err;
+		})
+	}
+
+	$scope.logmeout = function(){
+		$scope.response = "logging out";
+		delete $localStorage.token;
+		$timeout(function(){
+			if(!$localStorage.token){
+				$window.location.reload();
+			}
+		}, 800)
+	}
+
+	$http.get('/api/users').success(function(users){
+		$scope.users = users;
+	})
+
+
+	
+})
+
 // controller for the homepage
 app.controller('summary-controller', function($scope){
 	// manually assiging the tabs to scope;
