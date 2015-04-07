@@ -1,0 +1,233 @@
+@import url("http://fonts.googleapis.com/css?family=Ubuntu+Mono|Montserrat:400,700|Roboto+Slab");
+* {
+  font-family: Montserrat, sans-serif;
+  margin: 0;
+  padding: 0;
+  outline: none; }
+
+body {
+  font-size: 15px;
+  line-height: 21px; }
+
+.container {
+  width: 1080px;
+  height: 1920px;
+  display: block; }
+
+.loginContainer {
+  margin: 20px; }
+
+.toolbar {
+  display: block;
+  width: 100%;
+  height: 40px;
+  background-color: #111;
+  margin-bottom: 13px;
+  color: #eee;
+  text-align: center;
+  line-height: 40px;
+  vertical-align: middle;
+  position: relative; }
+  .toolbar h4 {
+    float: left;
+    margin-left: 20px; }
+  .toolbar .tab-name {
+    float: right;
+    margin-right: 20px; }
+  .toolbar .backButton {
+    float: left; }
+    .toolbar .backButton a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      border-bottom: 2px dotted #fff; }
+      .toolbar .backButton a:hover {
+        border-bottom: 2px solid #fff; }
+
+.balance-container {
+  position: relative; }
+  .balance-container .polarity {
+    position: absolute;
+    margin-left: -1.4rem;
+    font-size: 2rem; }
+
+.your-balance-label {
+  text-align: center;
+  text-transform: capitalize;
+  margin: 1rem; }
+
+.your-balance {
+  margin-top: 0.4rem;
+  text-align: center; }
+  .your-balance h2 {
+    display: inline;
+    font-size: 3rem; }
+
+.balance {
+  font-family: Montserrat;
+  font-weight: 400; }
+
+.create-expense-container {
+  margin-top: 20px;
+  width: 80%;
+  margin: auto; }
+
+.create-new-expense {
+  -webkit-tap-highlight-color: transparent;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: none;
+  box-shadow: none;
+  border: 2px solid black;
+  width: 100%;
+  max-width: 400px;
+  text-transform: uppercase;
+  display: block;
+  font-family: Montserrat;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+  transition: all 0.6s;
+  cursor: pointer;
+  margin: auto;
+  margin-top: 1.4rem;
+  text-align: center; }
+
+.transactions-container {
+  max-width: 400px;
+  display: block;
+  margin: auto;
+  padding-left: 10px;
+  padding-right: 10px; }
+  .transactions-container h5 {
+    font-family: Ubuntu Mono;
+    font-size: 0.7rem;
+    text-transform: capitalize;
+    text-align: center; }
+
+.transaction-hr {
+  border: none;
+  border-bottom: 1px dotted #aaa; }
+
+.transaction {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  border-bottom: 1px dotted #ccc;
+  transition: all 0.3s; }
+  .transaction.no-touch {
+    cursor: default; }
+    .transaction.no-touch:hover {
+      background-color: #f8f8f8; }
+
+.members {
+  text-align: center;
+  font-size: 0.8rem;
+  font-family: Ubuntu Mono; }
+  .members li {
+    display: inline;
+    font-family: inherit;
+    font-size: inherit; }
+    .members li:after {
+      content: " // "; }
+    .members li:last-child:after {
+      content: none; }
+  .members .selected {
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: inherit; }
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */ }
+
+.detail {
+  display: block;
+  line-height: 1.2rem;
+  font-size: 1rem;
+  font-family: Ubuntu Mono; }
+
+.time {
+  font-family: Ubuntu Mono;
+  line-height: 0.7rem;
+  font-size: 0.7rem; }
+
+.admin {
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding: 10px;
+  border: 1px dotted #ccc;
+  margin: 10px; }
+  .admin button {
+    padding: 5px; }
+
+.collapsed {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.4s;
+  visibility: hidden; }
+
+.expanded {
+  height: 200px;
+  overflow: hidden;
+  transition: height 0.4s; }
+
+.new-expense-form {
+  transition: height 0.4s;
+  width: 90%;
+  max-width: 400px;
+  display: block;
+  background-color: #fff;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto; }
+  .new-expense-form input {
+    display: block;
+    border: 2px solid black;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 0.7rem;
+    margin-top: 0.7rem;
+    padding: 10px;
+    height: 20px;
+    color: #000;
+    border-radius: 0px;
+    box-shadow: none; }
+  .new-expense-form button {
+    padding: 5px; }
+  .new-expense-form h4 {
+    text-align: center; }
+  .new-expense-form .add {
+    color: #111;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    border-bottom: 2px dotted #111; }
+    .new-expense-form .add:hover {
+      border-bottom: 2px solid #111; }
+
+.currencyInput {
+  position: absolute;
+  top: 23px;
+  left: 10px; }
+
+.tabs-container {
+  max-width: 400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
