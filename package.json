@@ -9,9 +9,11 @@
   },
   "repository": "github.com/mrprkr/tab_it",
   "scripts": {
+    "bower": "gulp bower",
+    "build": "gulp build",
     "test": "echo 0"
   },
-  "postinstall": "bower install && gulp bower && gulp build",
+  "postinstall": "",
   "author": "Parker",
   "license": "MIT",
   "devDependencies": {
