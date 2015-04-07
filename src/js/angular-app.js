@@ -160,6 +160,4 @@ app.controller('tab-controller', function($scope, $http, $location, $timeout, $r
 			$scope.createButton = {'border':'2px solid #111','cursor':'pointer'};
 		}
 	}
-
-
 })

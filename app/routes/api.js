@@ -21,6 +21,8 @@ var router = express.Router();
 var Tab = require('../models/tab.js');
 var User = require('../models/user.js');
 
+
+
 //middleware here
 router.use(function(req, res, next){
 	console.log(req.method+" request being made");

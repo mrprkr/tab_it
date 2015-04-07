@@ -12,11 +12,16 @@ app.use(bodyParser.json());
 var api = require('./app/routes/api');
 app.use('/api', api);
 
+
 // HTML
 app.use('/', express.static(__dirname + '/public'));
+app.get('/[^\.]+$', function(req, res){
+    res.sendFile("index.html", {root: __dirname + '/public' });
+});
 app.get('/', function(req, res){
-	res.render('index.html')
+	res.sendFile('index.html')
 })
 
+//Start the server
 console.log("app listening on port: "+ port);
 app.listen(port);

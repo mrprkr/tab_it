@@ -18,7 +18,9 @@ app.use(bodyParser.json());
 
 //define router and models
 var router = express.Router();
-var Tab = require('../models/tab.js');
+var schemas = require('../models/tab.js');
+var User = db.model('User', UserSchema);
+var Transaction = db.model('Transaction', TransactionSchema);
 
 //middleware here
 router.use(function(req, res, next){
