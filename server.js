@@ -16,11 +16,11 @@ app.use('/api', api);
 // HTML
 app.use('/', express.static(__dirname + '/public'));
 app.get('/[^\.]+$', function(req, res){
-    res.sendFile("index.html", {root: __dirname + '/public' });
+    res.sendFile(__dirname + "/public/index.html");
 });
-app.get('/', function(req, res){
-	res.sendFile('index.html', {root: __dirname + '/public' })
-})
+// app.get('/', function(req, res){
+// 	res.sendFile(__dirname + "/public/index.html")
+// })
 
 //Start the server
 console.log("app listening on port: "+ port);
