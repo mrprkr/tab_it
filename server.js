@@ -20,7 +20,7 @@ app.get('/[^\.]+$', function(req, res){
     res.sendFile("index.html", {root: __dirname + '/public' });
 });
 app.get('/', function(req, res){
-	res.sendFile('index.html')
+	res.sendFile('index.html', {root: __dirname + '/public' })
 })
 
 //Start the server
