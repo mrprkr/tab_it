@@ -11,6 +11,11 @@ app.config(['$routeProvider', '$locationProvider',
 				controller: 'homepage-controller'
 			})
 
+			.when('/login', {
+				templateUrl: 'login.html',
+				controller: 'login-controller'
+			})
+
 			.when('/tabs', {
 				templateUrl: 'your_tabs.html',
 				controller: 'summary-controller'
@@ -71,6 +76,10 @@ app.filter('dateSuffix', function($filter) {
 });
 
 app.controller('homepage-controller', function($scope){
+	
+})
+
+app.controller('login-controller', function($scope){
 	
 })
 // controller for the homepage

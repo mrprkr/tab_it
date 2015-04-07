@@ -23,6 +23,7 @@ var User = require('../models/user.js');
 
 
 
+//                     user.token = jwt.sign(user, '12322345');
 //middleware here
 router.use(function(req, res, next){
 	console.log(req.method+" request being made");
