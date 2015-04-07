@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "scripts": {
+    "test": "echo 0"
+  },
   "author": "Parker",
   "license": "MIT",
   "devDependencies": {
