@@ -4,16 +4,27 @@
 	hr
 	br
 	h4 Create an account
-	form
-		input(type="text" placeholder="your name")
-		input(type="email" placeholder="email")
-		input(type="password" placeholder="password")
+	form(ng-submit="createNewUser()")
+		input(type="text" placeholder="your name" ng-model="newUser.name")
+		input(type="email" placeholder="email" ng-model="newUser.email")
+		input(type="password" placeholder="password" ng-model="newUser.password")
 		input(type="submit" value="Create account")
+
 	br
 	hr
 	br
 	h4 Sign in
-	form
-		input(type="email" placeholder="email")
-		input(type="password" placeholder="password")
+	form(ng-submit="authenticate()")
+		input(type="email" placeholder="email" ng-model="signIn.email")
+		input(type="password" placeholder="password" ng-model="signIn.password")
 		input(type="submit" value="Log In")
+	br
+	button(ng-click="logmeout()") log out
+	button(ng-click="getMe()")	Get me
+	p response: {{response}}
+
+	br
+	br
+	p Registered Users: 
+	ul 
+		li(ng-repeat="user in users"){{user.name}} | {{user.email}}
