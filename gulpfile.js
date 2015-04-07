@@ -3,13 +3,12 @@ var bower 				= require('gulp-bower');
 var sass 					= require('gulp-sass');
 var notify 				= require('gulp-notify');
 var jade					= require('gulp-jade');
-var ghPages		= require('gulp-gh-pages');
-var browserSync 	= require('browser-sync');
+// var browserSync 	= require('browser-sync');
 var templateCache = require ('gulp-angular-templatecache');
 var streamqueue 	= require('streamqueue');
-var modRewrite  = require('connect-modrewrite');
-var middleware = require('middleware');
-var reload 				= browserSync.reload;
+// var modRewrite  = require('connect-modrewrite');
+// var middleware = require('middleware');
+// var reload 				= browserSync.reload;
 
 gulp.task('jade', function(){
 	var j = jade({
@@ -86,25 +85,20 @@ gulp.task('bower', function(){
 
 
 //serve to the browser
-gulp.task('serve', function(){
-	browserSync({
-		server: {
-			baseDir: "./public",
-			middleware: [
-                modRewrite([
-                    '!\\.\\w+$ /index.html [L]'
-                ])
-            ]
-		},
-		open: false
-	})
-});
+// gulp.task('serve', function(){
+// 	browserSync({
+// 		server: {
+// 			baseDir: "./public",
+// 			middleware: [
+//                 modRewrite([
+//                     '!\\.\\w+$ /index.html [L]'
+//                 ])
+//             ]
+// 		},
+// 		open: false
+// 	})
+// });
 
 //the dafault task
-gulp.task('default', ['watch', 'build', 'bower', 'serve']);
+gulp.task('default', ['watch', 'build', 'bower']);
 
-//deploy to github-pages
-gulp.task('deploy', function(){
-	return gulp.src('./public/**/*')
-	.pipe(ghPages());
-});
