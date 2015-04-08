@@ -112,7 +112,8 @@ router.post('/authenticate', function(req, res) {
 				//if the account is locked, send 403
 				else if(user.locked){
 					res.json({
-							result: false,	
+							result: false,
+							locked: true,	
 							data: "Account is locked, reset password to unlock"
 						})
 				}
@@ -204,7 +205,7 @@ router.post('/authenticate/requestreset', function(req, res){
 				console.log(err)
 			console.log(user._id+" reqested password reset")
 		})
-		
+
 		//send the reset email
 		app.mailer.send('reset_password', {
 			to: user.email, 

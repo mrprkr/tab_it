@@ -1,6 +1,6 @@
 
 <div class="loginContainer">
-  <h1>Login</h1><br/>
+  <h1>Auth Functions</h1><br/>
   <hr/><br/>
   <h4>Create an account</h4>
   <form ng-submit="createNewUser()">
@@ -15,18 +15,25 @@
     <input type="email" placeholder="email" ng-model="signIn.email"/>
     <input type="password" placeholder="password" ng-model="signIn.password"/>
     <input type="submit" value="Log In"/>
+    <p ng-if="needReset">Too many attempts, you must reset your password</p>
   </form><br/>
   <hr/><br/>
-  <button ng-click="getMe()">Who's logged in?</button>
-  <p>user: {{user.name}}</p>
-  <p>email: {{user.email}}</p><br/>
+  <h4>Who's logged in</h4>
+  <p ng-if="user">user: {{user.name}}</p>
+  <p ng-if="user">email: {{user.email}}</p>
+  <p ng-if="!user">no-one is logged in</p><br/>
   <hr/><br/>
-  <button ng-click="logmeout()">log out/clean tokens</button><br/>
+  <h4>Log Out</h4>
+  <form>
+    <button ng-click="logmeout()">Log Out</button>
+  </form><br/>
   <hr/><br/>
-  <p>response: {{response}}</p><br/>
-  <p>Request Reset password of a user</p>
+  <h4>Reset password form</h4>
   <form ng-submit="requestReset()">
-    <input type="email" ng-model="resetRequest.email"/>
+    <input type="email" placeholder="email" ng-model="resetRequest.email"/>
     <input type="submit" value="reset"/>
   </form><br/>
+  <hr/><br/>
+  <h4>Server response: </h4>
+  <p>{{response}}</p><br/>
 </div>

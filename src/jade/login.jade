@@ -1,8 +1,9 @@
 .loginContainer
-	h1 Login
+	h1 Auth Functions
 	br
 	hr
 	br
+	
 	h4 Create an account
 	form(ng-submit="createNewUser()")
 		input(type="text" placeholder="your name" ng-model="newUser.name")
@@ -13,29 +14,40 @@
 	br
 	hr
 	br
+	
 	h4 Sign in
 	form(ng-submit="authenticate()")
 		input(type="email" placeholder="email" ng-model="signIn.email")
 		input(type="password" placeholder="password" ng-model="signIn.password")
 		input(type="submit" value="Log In")
+		p(ng-if="needReset") Too many attempts, you must reset your password
 	br
 	hr
 	br
-	button(ng-click="getMe()") Who's logged in?
-	p user: {{user.name}}
-	p email: {{user.email}}
+	
+	h4 Who's logged in
+	p(ng-if="user") user: {{user.name}}
+	p(ng-if="user") email: {{user.email}}
+	p(ng-if="!user") no-one is logged in
 	br
 	hr
-	br
-	button(ng-click="logmeout()") log out/clean tokens
-	br
-	hr
-	br
-	p response: {{response}}
 	br
 
-	p Request Reset password of a user
+	h4 Log Out
+	form
+		button(ng-click="logmeout()") Log Out
+	br
+	hr
+	br
+
+	h4 Reset password form
 	form(ng-submit="requestReset()")
-		input(type="email" ng-model="resetRequest.email")
+		input(type="email" placeholder="email" ng-model="resetRequest.email")
 		input(type="submit", value="reset")
 	br
+	hr
+	br
+	h4 Server response: 
+	p {{response}}
+	br
+

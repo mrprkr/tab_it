@@ -92,6 +92,27 @@ app.controller('homepage-controller', function($scope){
 app.controller('login-controller', function($scope, $http, $localStorage, $window, $location, $timeout, $routeParams){
 	$scope.response = "";
 	$scope.token = $localStorage.token;
+	
+
+	$scope.getMe = function(){
+		
+		$http.get('/api/users/me').success(function(data){
+			$scope.response = data;
+			$scope.user.email = data.data.email;
+			$scope.user.name = data.data.name;
+			console.log($scope.user)
+		}).error(function(err){
+			$scope.response = err;
+		})
+	}
+
+	// if there is a token stored, check who it's for
+	if($scope.token){
+		$http.defaults.headers.common.Authorization = $localStorage.token;
+		$scope.user = {};
+		$scope.getMe();
+	}
+	
 
 	$scope.createNewUser = function(){
 		$http.post('/api/users', $scope.newUser).success(function(response){
@@ -104,19 +125,19 @@ app.controller('login-controller', function($scope, $http, $localStorage, $windo
 	$scope.authenticate = function(){
 		$http.post('/api/authenticate', $scope.signIn).success(function(response){
 			$scope.response = response;
+			if(response.locked === true){
+				$scope.needReset = true;
+			}
 			$localStorage.token = response.token;
 			$http.defaults.headers.common.Authorization = $localStorage.token;
+			$scope.getMe();
 		}).
 		error(function(err){
 			$scope.response = err;
 		})
 	}
 
-	// $scope.getMe = function(){
-	// 	$http.get('/api/users/me').success(function(data){
-	// 		$scope.response = data;
-	// 	})
-	// }
+
 
 	$scope.logmeout = function(){
 		$scope.response = "logging out";
@@ -146,7 +167,6 @@ app.controller('login-controller', function($scope, $http, $localStorage, $windo
 				$location.path("/login");
 				$scope.$apply();
 			}, 800)
-
 		})
 	}
 	
