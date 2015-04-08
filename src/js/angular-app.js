@@ -16,6 +16,16 @@ app.config(['$routeProvider', '$locationProvider',
 				controller: 'login-controller'
 			})
 
+			.when('/resetpassword', {
+				templateUrl: 'requestreset.html',
+				controller: 'login-controller'
+			})
+
+			.when('/resetpassword/:id/:token', {
+				templateUrl: 'resetpassword.html',
+				controller: 'login-controller'
+			})
+
 			.when('/tabs', {
 				templateUrl: 'your_tabs.html',
 				controller: 'summary-controller'
@@ -79,7 +89,7 @@ app.controller('homepage-controller', function($scope){
 })
 
 
-app.controller('login-controller', function($scope, $http, $localStorage, $window, $timeout){
+app.controller('login-controller', function($scope, $http, $localStorage, $window, $location, $timeout, $routeParams){
 	$scope.response = "";
 	$scope.token = $localStorage.token;
 
@@ -102,13 +112,11 @@ app.controller('login-controller', function($scope, $http, $localStorage, $windo
 		})
 	}
 
-	$scope.getMe = function(){
-		$http.get('/api/users/me').success(function(response){
-			$scope.response = response;
-		}).error(function(err){
-			$scope.response = err;
-		})
-	}
+	// $scope.getMe = function(){
+	// 	$http.get('/api/users/me').success(function(data){
+	// 		$scope.response = data;
+	// 	})
+	// }
 
 	$scope.logmeout = function(){
 		$scope.response = "logging out";
@@ -120,11 +128,27 @@ app.controller('login-controller', function($scope, $http, $localStorage, $windo
 		}, 800)
 	}
 
-	$http.get('/api/users').success(function(users){
-		$scope.users = users;
-	})
 
+	// function to request a reset email
+	$scope.requestReset = function(){
+		$http.post('/api/authenticate/requestreset', $scope.resetRequest).success(function(data){
+			$scope.response = data;
+		})
+	}
 
+	//function to handle reset password
+	$scope.setNewPassword = function(){
+		$scope.newPassword.user_id = $routeParams.id;
+		$scope.newPassword.resetToken = $routeParams.token;
+		$http.post('/api/authenticate/resetpassword', $scope.newPassword).success(function(response){
+			console.log(response);
+			$timeout(function(){
+				$location.path("/login");
+				$scope.$apply();
+			}, 800)
+
+		})
+	}
 	
 })
 

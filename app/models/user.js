@@ -6,8 +6,11 @@ var UserSchema = new Schema({
 	email: String,
 	password: String, //this is hashed
 	token: String,
-	loginAttempts: {type: Number, default: 0},
-	locked: {type: Boolean, default: false}
+	privilege: {type: String, default: "member"},
+	//helpers to reset password securely
+	failedLoginAttempts: {type: Number, default: 0},
+	locked: {type: Boolean, default: false},
+	resetToken: String
 })
 
 module.exports = mongoose.model('User', UserSchema);

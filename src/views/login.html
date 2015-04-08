@@ -16,13 +16,17 @@
     <input type="password" placeholder="password" ng-model="signIn.password"/>
     <input type="submit" value="Log In"/>
   </form><br/>
+  <hr/><br/>
   <button ng-click="getMe()">Who's logged in?</button>
-  <button ng-if="userLoggedIn" ng-click="logmeout()">log out</button>
-  <button ng-click="logmeout()">log out</button>
-  <button ng-click="getMe()">Get me</button>
-  <p>response: {{response}}</p><br/><br/>
-  <p>Registered Users: </p>
-  <ul> 
-    <li ng-repeat="user in users">{{user.name}} | {{user.email}}</li>
-  </ul>
+  <p>user: {{user.name}}</p>
+  <p>email: {{user.email}}</p><br/>
+  <hr/><br/>
+  <button ng-click="logmeout()">log out/clean tokens</button><br/>
+  <hr/><br/>
+  <p>response: {{response}}</p><br/>
+  <p>Request Reset password of a user</p>
+  <form ng-submit="requestReset()">
+    <input type="email" ng-model="resetRequest.email"/>
+    <input type="submit" value="reset"/>
+  </form><br/>
 </div>
