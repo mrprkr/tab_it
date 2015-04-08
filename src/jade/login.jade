@@ -19,14 +19,14 @@
 		input(type="password" placeholder="password" ng-model="signIn.password")
 		input(type="submit" value="Log In")
 	br
-	button(ng-click="getMe()")	Who's logged in?
+	button(ng-click="getMe()") Who's logged in?
 	button(ng-if="userLoggedIn" ng-click="logmeout()") log out
 	button(ng-click="logmeout()") log out
-	button(ng-click="getMe()")	Get me
+	button(ng-click="getMe()") Get me
 	p response: {{response}}
 
 	br
 	br
 	p Registered Users: 
 	ul 
-		li(ng-repeat="user in users"){{user.name}} | {{user.email}}
+		li(ng-repeat="user in users") {{user.name}} | {{user.email}}
