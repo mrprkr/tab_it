@@ -55,7 +55,10 @@ function ensureAuthorized(req, res, next) {
 				var bearer = bearerHeader.split(" ");
 				bearerToken = bearer[1];
 				req.token = bearerToken;
-				next();
+				User.findOne({token: req.token}, function(err, user){
+					if(user.locked === false){
+						next()
+					}
 		} else {
 				res.send(403);
 		}
